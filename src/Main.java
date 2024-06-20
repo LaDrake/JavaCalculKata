@@ -41,7 +41,6 @@ public class Main {
 
             if (operation.equals("+")) {
                values.sum();
-               String a = "111";
             } else if (operation.equals("-")) {
                 values.sub();
             } else if (operation.equals("/") || operation.equals(":")) {
