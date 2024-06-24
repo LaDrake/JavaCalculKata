@@ -61,3 +61,4 @@ public class Arabic extends Operation {
         this.value2 = value2;
     }
 }
+1
