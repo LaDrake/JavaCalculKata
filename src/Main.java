@@ -13,7 +13,6 @@ public class Main {
             int value1 = 0;
             int value2 = 0;
             Operation values;
-            // Переводим в int. Если введены римские, выкинет исключение
             try {
                 value1 = Integer.parseInt(parserInput[0]);
                 value2 = Integer.parseInt(parserInput[2]);
