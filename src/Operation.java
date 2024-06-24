@@ -10,4 +10,3 @@ public abstract class Operation {
     public abstract int getResult();
     public abstract String getStringResult();
 }
-1
