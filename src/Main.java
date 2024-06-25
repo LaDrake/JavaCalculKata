@@ -8,6 +8,7 @@ public class Main {
         String input = inputValueSC.nextLine();
 
         while (!input.isEmpty()) {
+            arabicNumbers = true;
             String[] parserInput = Main.pars(input);
             String operation = parserInput[1];
             int value1 = 0;

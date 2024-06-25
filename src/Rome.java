@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Rome extends Operation {
     private String romesValue1;
     private String romesValue2;
@@ -22,6 +25,10 @@ public class Rome extends Operation {
         while (resultInt >= 100) {
             s += "C";
             resultInt -= 100;
+        }
+        while (resultInt >= 90) {
+            s += "XC";
+            resultInt -= 90;
         }
         while (resultInt >= 50) {
             s += "L";
@@ -71,7 +78,6 @@ public class Rome extends Operation {
             System.out.print("Проверьте правильность ввода римских цифр. Вероятно введены и арабские и римские одновременно. ");
             return;
         }
-
     }
 
     @Override
@@ -84,40 +90,43 @@ public class Rome extends Operation {
     public int getResult() {
         return resultInt;
     }
-    public String getStringResult() {
+    public String getStringResult() throws IllegalArgumentException {
+        if (resultInt == 0) {
+            throw new IllegalArgumentException("0 в римской системе нет");
+        }
         return resultString;
     }
 
-    private int convert_to_int(String romes_value){
-        char[] value_char = romes_value.toCharArray();
-        int[] values_int = new int[value_char.length];
-        for (int i = 0; i < value_char.length; i++) {
-            switch (value_char[i]) {
-                case 'I':
-                    values_int[i] = 1;
-                    break;
-                case 'V':
-                    values_int[i] = 5;
-                    break;
-                case 'X':
-                    values_int[i] = 10;
-                    break;
+    private int convert_to_int(String romes_value) {
+        Map<Character, Integer> romanMap = new HashMap<>();
+        romanMap.put('I', 1);
+        romanMap.put('V', 5);
+        romanMap.put('X', 10);
+        romanMap.put('L', 50);
+        romanMap.put('C', 100);
 
-                default:
-                    System.out.println("Содержится неверный символ. Проверьте правильность ввода римских цифр:" + "\n" +
-                            "I = 1" + "\n" +
-                            "V = 5" + "\n" +
-                            "X = 10");
-                    break;
+        int result = 0;
+        int prevValue = 0;
+        for (int i = romes_value.length() - 1; i >= 0; i--) {
+            char romanChar = romes_value.charAt(i);
+            int currentValue = romanMap.getOrDefault(romanChar, -1);
+            if (currentValue == -1) {
+                throw new IllegalArgumentException("Содержится неверный символ. Проверьте правильность ввода римских цифр:" + "\n" +
+                        "I = 1" + "\n" +
+                        "V = 5" + "\n" +
+                        "X = 10");
             }
+
+            if (currentValue < prevValue) {
+                result -= currentValue;
+            } else {
+                result += currentValue;
+            }
+            prevValue = currentValue;
         }
-        int result = values_int[0];
-        for (int i = 0; i < values_int.length && values_int.length > i + 1; i++) {
-            if (values_int[i] >= values_int[i+1]) {
-                result += values_int[i+1];
-            } else if (values_int[i] < values_int[i+1]) {
-                result = result + values_int[i+1] - 2;
-            }
+
+        if (!convert_result_to_Romes(result).equals(romes_value)) {
+            throw new IllegalArgumentException("Некорректная римская цифра: " + romes_value);
         }
         return result;
     }
